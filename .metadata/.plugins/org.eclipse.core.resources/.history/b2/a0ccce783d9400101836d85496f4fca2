@@ -1,0 +1,12 @@
+package day17;
+
+public class File04 {
+
+	public static void main(String[] args) {
+		// D:\web_0826_kkj\memo
+		
+		String fileName = "D:\\web_0826_kkj\\memo";
+
+	}
+
+}

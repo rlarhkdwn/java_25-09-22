@@ -1,0 +1,120 @@
+package day15;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class SaleController {
+	// 멤버변수로 메뉴에 대한 List
+	private List<Sale<String, Integer>> menu = new ArrayList<>();
+	private Order order = new Order();
+	private List<Order> orderList = new ArrayList<>();
+
+	
+	public void printMenu() {
+		System.out.println("1. 메뉴추가 | 2. 메뉴보기 | 3. 제품주문 | 4. 주문내역보기 | 5. 종료");		
+	}
+	
+	
+	public void addSale(Scanner scan) {
+		System.out.println("=====메뉴 추가=====");
+		System.out.print("메뉴명 : ");
+		String name = scan.nextLine();
+		System.out.print("가격 : ");
+		int price = scan.nextInt();
+		scan.nextLine();
+		menu.add(new Sale<String, Integer>(name, price));
+	}
+	
+	
+	public void printSale() {
+		System.out.println("=====전체 메뉴=====");
+		int i = 1;
+		for (Sale<String, Integer> s : menu) {
+			System.out.print(i++ + ". ");
+			System.out.println(s);
+		}
+		
+	}
+	
+	
+	public void orderSale(Scanner scan) {
+		System.out.println("=====메뉴 주문=====");
+		while (true) {
+			System.out.println("1. 추가하기 | 2. 변경하기 | 3. 계산하기 | 4. 나가기");
+			System.out.print("입력 => ");
+			String inputStr = scan.nextLine();
+			
+			switch (inputStr) {
+			case "1":
+				printSale();
+				System.out.print("메뉴번호 : ");
+				int saleNum = scan.nextInt();
+				scan.nextLine();
+				System.out.print("수량 : ");
+				int cnt = scan.nextInt();
+				scan.nextLine();
+				order.addSale(menu.get(saleNum - 1), cnt);
+				break;
+				
+			case "2":
+				printOrder();
+				System.out.print("변경할 메뉴번호 : ");
+				saleNum = scan.nextInt();
+				scan.nextLine();
+				System.out.print("변경할 수량 : ");
+				cnt = scan.nextInt();
+				scan.nextLine();
+				
+				int i = 1;
+				for (Sale<String, Integer> s : order.getOrder().keySet()) {
+					if (i++ == saleNum) {
+						order.removeSale(s);
+						order.addSale(s, cnt);
+						break;
+					}
+				}
+				break;
+				
+			case "3": 
+				System.out.println("=====영수증=====");
+				i = 1;
+				for (Sale<String, Integer> s : order.getOrder().keySet()) {
+					System.out.print(i + ". ");
+					System.out.printf("%s, %d개, %d원\n", s.getMenu(), order.getOrder().get(s), s.getPrice() * order.getOrder().get(s));
+				}
+				System.out.println("합계 : " + order.getTotal());
+				orderList.add(order);
+				clearOrder();
+				break;
+			case "4":
+				clearOrder();
+				return;
+			default: System.out.println("잘못된 메뉴 선택"); break;
+			}
+				
+		}
+		
+		
+	}
+	
+	
+	public void printOrderList() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void printOrder() {
+		System.out.println("=====장바구니=====");
+		int i = 1;
+		for (Sale<String, Integer> s : order.getOrder().keySet()) {
+			System.out.print(i++ + ". " + s.getMenu() + " : " + order.getOrder().get(s));
+			System.out.println();
+		}
+	}
+	
+	public void clearOrder() {
+		order = new Order();
+	}
+	
+}

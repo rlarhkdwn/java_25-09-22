@@ -1,0 +1,21 @@
+package day16;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Lambda {
+
+	public static void main(String[] args) {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("hong", 89);
+		map.put("kim", 96);
+		map.put("lee", 68);
+		map.put("choi", 45);
+		map.put("park", 78);
+		
+		map.forEach((a, b) -> {
+			System.out.println(a+":"+b);
+		});
+	}
+
+}

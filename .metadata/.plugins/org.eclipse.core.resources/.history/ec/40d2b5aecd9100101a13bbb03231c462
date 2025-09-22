@@ -1,0 +1,127 @@
+package day15;
+
+import java.util.List;
+
+public class Student {
+	private static int studentCount = 0;
+	private int studentCode;
+	private String name;
+	private String age;
+	private String phone;
+	private String address;
+	private List<Subject> subjectList;
+	
+	
+	public Student(String name, String age, String phone, String address) {
+		this.studentCode = studentCount++;
+		this.name = name;
+		this.age = age;
+		this.phone = phone;
+		this.address = address;
+	}
+	
+	
+	public void insertSubject(Subject s) {
+		for (int i = 0; i < subjectList.size(); i++) {
+			if (subjectList.get(i).getSubjectCode() == s.getSubjectCode()) {
+				System.out.println("이미 수강중인 과목입니다.");
+				return;
+			}
+		}
+		
+		if (subjectCount >= subjectList.length) {
+			subjectList = extendArray(subjectList);
+		}
+		subjectList[subjectCount] = s;
+		subjectCount++;
+		System.out.println("등록되었습니다.");
+	}
+	
+	public void deleteSubject(int subjectCode) {
+		for (int i = 0; i < subjectCount; i++) {
+			if (subjectList[i].getSubjectCode() == subjectCode){
+				for (int j = i; j < subjectCount - 1; j++) {
+					subjectList[j] = subjectList[j + 1];
+				}
+				subjectCount--;
+				System.out.println("삭제되었습니다.");
+				return;
+			}
+		}
+		System.out.println("해당 과목이 없습니다.");
+	}
+	
+	public void printSubjectList() {
+		System.out.println("=====수강 과목=====");
+		if (subjectCount > 0) {
+			for (int i = 0; i < subjectCount; i++) {
+				System.out.print(i + 1 + ". ");
+				subjectList[i].print();
+			}
+		}
+		else {
+			System.out.println("수강중인 과목이 없습니다.");
+		}
+	}
+	
+	public void printStudent() {
+		System.out.printf("학번: %d, 이름: %s, 나이: %s, 전화번호: %s, 주소: %s\n", studentCode, name, age, phone, address);
+	}
+	
+	
+	private Subject[] extendArray(Subject[] arr) {
+		Subject[] newArr = new Subject[arr.length + 5];
+		System.arraycopy(arr, 0, newArr, 0, arr.length);
+		return newArr;
+	}
+
+	
+	public static int getStudentCount() {
+		return studentCount;
+	}
+	public static void setStudentCount(int studentCount) {
+		Student.studentCount = studentCount;
+	}
+	public int getStudentCode() {
+		return studentCode;
+	}
+	public void setStudentCode(int studentCode) {
+		this.studentCode = studentCode;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getAge() {
+		return age;
+	}
+	public void setAge(String age) {
+		this.age = age;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public Subject[] getSubjectList() {
+		return subjectList;
+	}
+	public void setSubjectList(Subject[] subjectList) {
+		this.subjectList = subjectList;
+	}
+	public int getSubjectCount() {
+		return subjectCount;
+	}
+	public void setSubjectCount(int subjectCount) {
+		this.subjectCount = subjectCount;
+	}
+}

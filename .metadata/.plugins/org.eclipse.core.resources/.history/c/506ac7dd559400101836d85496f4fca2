@@ -1,0 +1,155 @@
+package day17;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+public class WordController {
+
+	private Map<String, List<String>> word;
+	private final String FILEPATH = "D:\\web_0826_kkj\\memo\\word.txt";
+	
+	public WordController () {
+		word = new HashMap<>();
+		word.put("apple", new ArrayList<String>());
+		word.get("apple").add("사과");
+		word.put("banana", new ArrayList<String>());
+		word.get("banana").add("바나나");
+		word.put("orange", new ArrayList<String>());
+		word.get("orange").add("오렌지");
+		word.put("pear", new ArrayList<String>());
+		word.get("pear").add("배");
+		word.put("kiwi", new ArrayList<String>());
+		word.get("kiwi").add("키위");
+	}
+	
+	public void printMenu() {
+		System.out.println("=====단어장=====");
+		System.out.println("1. 단어 등록");
+		System.out.println("2. 단어 검색");
+		System.out.println("3. 단어 수정");
+		System.out.println("4. 단어 출력");
+		System.out.println("5. 단어 삭제");
+		System.out.println("6. 파일 출력");
+		System.out.println("7. 종료");
+	}
+	
+	public void put(Scanner scan) {
+		System.out.print("단어 => ");
+		String key = scan.nextLine();
+		word.put(key, new ArrayList<String>());
+		
+		String value;
+		while (true) {
+			System.out.print("뜻(종료: q) => ");
+			value = scan.nextLine();
+			if (value.equals("q")) {
+				break;
+			}
+			word.get(key).add(value);
+		}
+		
+		System.out.println("등록되었습니다.");
+	}
+	
+	public void search(Scanner scan) {
+		System.out.print("검색할 단어를 입력하세요 => ");
+		String key = scan.nextLine();
+		if (word.get(key) == null) {
+			System.out.println("등록되지 않은 단어입니다.");
+			return;
+		}
+		
+		int i = 1;
+		System.out.println(key);
+		for (String s : word.get(key)) {
+			System.out.println(i++ + ". " + s);
+		}
+	}
+	
+	public void modify(Scanner scan) {
+		System.out.print("수정할 단어를 입력하세요 => ");
+		String key = scan.nextLine();
+		if (word.get(key) == null) {
+			System.out.println("등록되지 않은 단어입니다.");
+			return;
+		}
+		
+		System.out.println("1. 추가하기 | 2. 수정하기");
+		System.out.print("모드 선택 => ");
+		int mode = scan.nextInt();
+		scan.nextLine();
+		
+		switch (mode) {
+		case 1: 
+			System.out.print("새로운 뜻을 입력하세요 => ");
+			String value = scan.nextLine();
+			word.get(key).add(value);
+			System.out.println("추가되었습니다.");
+			break;
+		case 2:
+			int i = 1;
+			System.out.println(key);
+			for (String s : word.get(key)) {
+				System.out.println(i++ + ". " + s);
+			}
+			
+			System.out.print("수정할 뜻을 선택하세요 => ");
+			i = scan.nextInt();
+			scan.nextLine();
+			
+			if (i <= 0 || i > word.get(key).size()) {
+				System.out.println("올바르지 않은 번호입니다.");
+				return;
+			}
+			
+			System.out.print("새로운 뜻을 입력하세요 => ");
+			value = scan.nextLine();
+			word.get(key).remove(i - 1);
+			word.get(key).add(value);
+			System.out.println("수정되었습니다.");
+			break;
+		default: System.out.println("잘못된 모드 선택"); break;
+		}
+		
+	}
+	
+	public void print() {
+		for (String key : word.keySet()) {
+			int i = 1;
+			System.out.println(key);
+			for (String s : word.get(key)) {
+				System.out.println(i++ + ". " + s);
+			}
+			System.out.println();
+		}
+	}
+	
+	public void remove(Scanner scan) {
+		System.out.print("삭제할 단어를 입력하세요 => ");
+		String key = scan.nextLine();
+		if (word.get(key) == null) {
+			System.out.println("등록되지 않은 단어입니다.");
+			return;
+		}
+		word.remove(key);
+		System.out.println("삭제되었습니다.");
+	}
+	
+	public void makeFile() throws IOException {
+		FileWriter fw = new FileWriter(FILEPATH);
+		for (String key : word.keySet()) {
+			fw.write(key);
+			int i = 1;
+			for (String s : word.get(key)) {
+				fw.write(i++ + ". " + s);
+			}
+			fw.write("\n");
+		}
+		fw.close();
+	}
+}

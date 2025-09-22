@@ -1,0 +1,46 @@
+package day18;
+
+public class Thread03 {
+
+	public static void main(String[] args) {
+		// 1~50까지, 51~100의 합을 구하는 두개의 Thread를 생성
+		// 두개의 Thread가 실행되고 난 뒤
+		// Thread-0 1~50까지 출력된 후 합계 출력 => 1초
+		// Thread-1 51~100까지 출력 후 합계 출력 => 1초
+		// main Thread-0 + Thread-1 출력
+		//
+		// Thread.sleep() : 일정시간 대기상태
+		
+	}
+
+}
+
+class MyThread3 implements Runnable {
+	private int start;
+	private int end;
+	private int total = 0;
+	
+	public MyThread3(int start, int end) {
+		super();
+		this.start = start;
+		this.end = end;
+	}
+	
+	@Override
+	public void run() {
+		// 1부터 2000까지 반복 출력하는 구문 실행
+		for (int i = start; i <= end; i++) {
+			System.out.println(i + ". thread > " + Thread.currentThread().getName());
+			total += i;
+		}
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(Thread.currentThread().getName() + "합계: " + total);
+		
+	}
+	
+}

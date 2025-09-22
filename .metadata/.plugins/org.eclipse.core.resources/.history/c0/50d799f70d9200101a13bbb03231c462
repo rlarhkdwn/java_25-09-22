@@ -1,0 +1,39 @@
+package day15;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SaleController {
+	// 멤버변수로 메뉴에 대한 List
+	private List<Sale<String, Integer>> menu = new ArrayList<>();
+
+	
+	public void printMenu() {
+		System.out.println("1. 메뉴추가 | 2. 메뉴보기 | 3. 제품주문 | 4. 주문내역보기 | 5. 종료");		
+	}
+	
+	
+	public void addSale() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	public void printSale() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	public void orderSale() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	public void printOrder() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}

@@ -1,0 +1,25 @@
+package day16;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class AnonymousClass02 {
+
+	public static void main(String[] args) {
+		// list 의 sort
+		List<Integer> list = new ArrayList<>();
+		
+		for (int i = 0; i < 10; i++) {
+			list.add((int)(Math.random() * 10) + 1);
+		}
+		System.out.println(list);
+		
+		// sort
+		System.out.println("=====정렬 후=====");
+		Collections.sort(list);
+		System.out.println(list);
+		
+	}
+	
+}

@@ -1,0 +1,19 @@
+package day18;
+
+import java.util.Scanner;
+
+public class BankMain {
+
+	public static void main(String[] args) {
+		
+		Scanner scan = new Scanner(System.in);
+		Bank bankIBK = new Bank(BankNames.IBK);
+		
+		bankIBK.addCustomer(scan);
+		bankIBK.createAccount(scan);
+		bankIBK.plusMoney(scan);
+		bankIBK.minusMoney(scan);
+
+	}
+
+}

@@ -1,0 +1,19 @@
+package day17;
+
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class File02 {
+
+	public static void main(String[] args) throws IOException{
+		// FileWriter
+		
+		FileWriter fw = new FileWriter("test.txt");
+		for (int i = 1; i <= 10; i++) {
+			String data = i + ". test!!\n";
+			fw.write(data);
+		}
+		fw.close();
+	}
+
+}

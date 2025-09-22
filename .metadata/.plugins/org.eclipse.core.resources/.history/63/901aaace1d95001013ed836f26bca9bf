@@ -1,0 +1,148 @@
+package day18;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Bank {
+	private BankNames bankName;
+	private Map<String, Customer> customers = new HashMap<>();
+	private List<Account> accounts = new ArrayList<>();
+	
+	public Bank(BankNames bankName) {
+		this.bankName = bankName;
+	}
+	
+	public void addCustomer(Scanner scan) {
+		System.out.print("이름: ");
+		String name = scan.nextLine();
+		
+		customers.put(name, new Customer(name));
+	}
+	
+	public void createAccount(Scanner scan) {
+		String name = scanName(scan);
+		if (name == null) {
+			return;
+		}
+		
+		System.out.print("사용하실 계좌번호를 입력하세요 => ");
+		String accountNum = scan.nextLine();
+		
+		if (accounts.contains(new Account(accountNum))) {
+			System.out.println("이미 사용중인 계좌번호입니다.");
+			return;
+		}
+		
+		customers.get(name).addAccount(new Account(accountNum));	
+		accounts.add(new Account(accountNum));
+	}
+	
+	public void plusMoney(Scanner scan) {
+		String name = scanName(scan);
+		if (name == null) {
+			return;
+		}
+
+		int idx = choiceAccount(scan, customers.get(name));
+		if (idx == -1) {
+			return;
+		}
+				
+		System.out.print("입금하실 금액을 입력하세요. => ");
+		int money = scan.nextInt();
+		scan.nextLine();
+		
+		customers.get(name).plusMoney(idx, money);
+	}
+	
+	public void minusMoney(Scanner scan) {
+		String name = scanName(scan);
+		if (name == null) {
+			return;
+		}
+
+		int idx = choiceAccount(scan, customers.get(name));
+		if (idx == -1) {
+			return;
+		}
+				
+		System.out.print("출금하실 금액을 입력하세요. => ");
+		int money = scan.nextInt();
+		scan.nextLine();
+		
+		if (customers.get(name).getAccounts().get(idx).getMoney() < money) {
+			System.out.println("잔액이 부족합니다.");
+			return;
+		}
+		
+		customers.get(name).minusMoney(idx, money);
+	}
+	
+	public void sendMoney(Scanner scan) {
+		String src = scanName(scan);
+		if (src == null) {
+			return;
+		}
+		
+		int i = 1;
+		for (BankNames bk : BankNames.values()) {
+			System.out.print(i + ". " + bk);
+		}
+		System.out.print("은행을 선택해주세요 => ");
+		String bankName = scan.nextLine();
+		
+		String dst = scanName(scan);
+		if (dst == null) {
+			return;
+		}
+		
+		int idx = choiceAccount(scan, customers.get(src));
+		if (idx == -1) {
+			return;
+		}
+				
+		System.out.print("출금하실 금액을 입력하세요. => ");
+		int money = scan.nextInt();
+		scan.nextLine();
+		
+		if (customers.get(src).getAccounts().get(idx).getMoney() < money) {
+			System.out.println("잔액이 부족합니다.");
+			return;
+		}
+		
+		customers.get(src).minusMoney(idx, money);
+	}	
+	
+	
+	public String scanName(Scanner scan) {
+		System.out.print("이름 => ");
+		String name = scan.nextLine();
+		
+		if (!customers.containsKey(name)) {
+			System.out.println("해당 고객이 없습니다.");
+			return null;
+		}
+		return name;
+	}
+	
+	public int choiceAccount(Scanner scan, Customer customer) {
+		int i = 1;
+		for (Account account : customer.getAccounts()) {
+			System.out.println(i++ + ". " + account.getAccountNum());
+		}
+		
+		System.out.print("계좌를 선택해주세요. => ");
+		int idx = scan.nextInt();
+		scan.nextLine();
+		
+		if (idx < 1 || idx > customer.getAccounts().size()) {
+			System.out.println("계좌를 잘못선택했습니다.");
+			return -1;
+		}
+		
+		return idx;
+	}
+}

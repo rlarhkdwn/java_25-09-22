@@ -1,0 +1,72 @@
+package day17;
+
+import java.util.Scanner;
+
+public class MapEx01 {
+
+	public static void main(String[] args) {
+		// Map을 활용한 단어장 프로그램
+		// 1. 단어 등록
+		// 2. 단어 검색
+		// 3. 단어 수정(뜻 수정)
+		// 4. 단어 출력(전체 출력)
+		// 5. 단어 삭제
+		// 6. 종료
+		// wordController 생성하여 Map을 멤버변수로 선언
+		// 메서드로 구현
+		// 기본단어 5가지 등록
+		// 
+		// 기본적인 CRUD
+		// C : create (생성) => 등록, 추가
+		// R : read (읽기) => 조회, 전체 출력
+		// U : update (수정)
+		// D : delete (삭제)
+	
+		Scanner scan = new Scanner(System.in);
+		WordController wc = new WordController();
+		
+		while (true) {
+			int choice = -1;
+			try {
+				wc.printMenu();
+				System.out.print("입력 => ");
+				choice = scan.nextInt();
+			} catch (Exception e) {
+				System.out.println("숫자만 입력해주세요.");
+				scan.nextLine();
+				continue;
+			}
+			scan.nextLine();
+			
+			switch (choice) {
+			case 1: 
+				System.out.println("=====1. 단어 등록=====");
+				wc.put(scan); 
+				break;
+			case 2: 
+				System.out.println("=====2. 단어 검색=====");
+				wc.search(scan);
+				break;
+			case 3: 
+				System.out.println("=====3. 단어 수정=====");
+				wc.print(); 
+				wc.modify(scan); 
+				break;
+			case 4: 
+				System.out.println("=====4. 단어 출력=====");
+				wc.print(); 
+				break;
+			case 5: 
+				System.out.println("=====5. 단어 삭제=====");
+				wc.print(); 
+				wc.remove(scan);
+				break;
+			case 6: System.out.println("종료"); return;
+			default: System.out.println("잘못된 메뉴 선택입니다.");
+			}
+			
+		}
+			
+	}
+
+}

@@ -1,0 +1,11 @@
+package day17;
+
+public class Company2Test {
+
+	public static void main(String[] args) {
+		
+		System.out.println(Company2.APPLE.getValue());
+
+	}
+
+}

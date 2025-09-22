@@ -1,0 +1,12 @@
+package day15;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SaleController {
+	// 멤버변수로 메뉴에 대한 List
+	private List<Sale<String, Integer>> menu = new ArrayList<>();
+	
+	
+	
+}

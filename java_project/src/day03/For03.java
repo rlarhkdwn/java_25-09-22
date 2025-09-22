@@ -1,0 +1,23 @@
+package day03;
+
+import java.util.Scanner;
+
+public class For03 {
+
+	public static void main(String[] args) {
+		// 구구단 2단 출력
+		// 2 x 1 = 2
+		// 2 x 2 = 4
+		// ...
+		// 2 x 9 = 18
+		Scanner scan = new Scanner(System.in);
+		
+		System.out.print("원하는 구구단을 입력하세요 => ");
+		int dan = scan.nextInt();
+		for (int i = 1; i <= 9; i++) {
+			System.out.printf("%d x %d = %2d\n", dan, i, dan * i);
+		}
+
+	}
+
+}

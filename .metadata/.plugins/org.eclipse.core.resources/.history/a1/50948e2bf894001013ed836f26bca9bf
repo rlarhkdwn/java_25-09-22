@@ -1,0 +1,25 @@
+package day18;
+
+public class Thread02 {
+
+	public static void main(String[] args) {
+		// Runnalbe 구현하는 방법
+		
+
+	}
+
+}
+
+class MyThread2 implements Runnable {
+
+	@Override
+	public void run() {
+		// 1부터 2000까지 반복 출력하는 구문 실행
+		for (int i = 0; i < 2000; i++) {
+			System.out.println(i + ". thread > " + Thread.currentThread().getName());
+		}
+		System.out.println(Thread.currentThread().getName() + "end~!!");
+		
+	}
+	
+}

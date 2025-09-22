@@ -1,0 +1,77 @@
+package day18;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Customer {
+	private String name;
+	private String bankName;
+	private List<Account> accounts = new ArrayList<>();
+	
+	public Customer(String name, String bankName) {
+		this.name = name;
+		this.bankName = bankName;
+		File folder = new File("D:\\web_0826_kkj\\memo\\" + bankName + "\\" + name);
+		if (!folder.exists()) {
+            folder.mkdir();
+        }
+		
+	}
+	
+	public void load(String name, String bankName) throws IOException {
+        File dir = new File("D:\\web_0826_kkj\\memo\\" + bankName + "\\" + name);
+        if (dir.isDirectory()) {
+            for (String file : dir.list()) {
+                String accountNum = file.split(".")[0];
+                Account account = new Account(accountNum, bankName, name);
+                account.load(accountNum, bankName, bankName);
+                accounts.add(account);
+            }
+        }
+	}
+	
+	public void addAccount(Account account) {
+		accounts.add(account);
+	}
+
+	public void plusMoney(String accountNum, String bank, int money) throws IOException {
+		accounts.get(accounts.indexOf(new Account(accountNum, bank, name))).plusMoney(money);
+	}
+	
+	public void minusMoney(String accountNum, String bank, int money) throws IOException {
+		accounts.get(accounts.indexOf(new Account(accountNum, bank, name))).minusMoney(money);
+	}
+	
+	public void sendMoney(String accountNum, String bank, String src, String dst, int money) throws IOException {
+		accounts.get(accounts.indexOf(new Account(accountNum, bank, name))).sendMoney(src, dst, money);
+	}
+	
+	public void receiveMoney(String accountNum, String bank, String src, String dst, int money) throws IOException {
+		accounts.get(accounts.indexOf(new Account(accountNum, bank, name))).receiveMoney(src, dst, money);
+	}
+	
+	public void printTransactions(String accountNum, String bank) throws IOException {
+		accounts.get(accounts.indexOf(new Account(accountNum, bank, name))).printTransactions();
+	}
+	
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
+	}
+	
+	
+}

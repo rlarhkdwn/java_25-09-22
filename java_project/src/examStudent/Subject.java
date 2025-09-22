@@ -1,0 +1,83 @@
+package examStudent;
+
+public class Subject {
+	private static int subjectCount = 0;
+	private int subjectCode;
+	private String name;
+	private String period;
+	private String hour;
+	private String instructor;
+	private String room;
+	
+	public Subject(String name, String period, String hour, String instructor, String room) {
+		this.subjectCode = this.subjectCount++;
+		this.name = name;
+		this.period = period;
+		this.hour = hour;
+		this.instructor = instructor;
+		this.room = room;
+	}
+
+	
+	public void print() {
+		System.out.printf("과목 코드: %d, 과목명: %s, 기간: %s, 시수: %sh, 강사: %s, 강의장: %s강의장\n", subjectCode, name, period, hour, instructor, room);
+	}
+	
+	
+	public static int getSubjectCount() {
+		return subjectCount;
+	}
+
+	public static void setSubjectCount(int subjectCount) {
+		Subject.subjectCount = subjectCount;
+	}
+
+	public int getSubjectCode() {
+		return subjectCode;
+	}
+
+	public void setSubjectCode(int subjectCode) {
+		this.subjectCode = subjectCode;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(String period) {
+		this.period = period;
+	}
+
+	public String getHour() {
+		return hour;
+	}
+
+	public void setHour(String hour) {
+		this.hour = hour;
+	}
+
+	public String getInstructor() {
+		return instructor;
+	}
+
+	public void setInstructor(String instructor) {
+		this.instructor = instructor;
+	}
+
+	public String getRoom() {
+		return room;
+	}
+
+	public void setRoom(String room) {
+		this.room = room;
+	}
+	
+}

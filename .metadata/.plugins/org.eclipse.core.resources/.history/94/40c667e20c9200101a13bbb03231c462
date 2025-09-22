@@ -1,0 +1,34 @@
+package day15;
+
+import java.util.Scanner;
+
+public class SaleMain {
+
+	public static void main(String[] args) {
+		// Sale 클래스 생성 => 제네릭으로 생성
+		// main
+		// 1. 메뉴추가 | 2. 메뉴보기 | 3. 제품주문 | 4. 주문내역보기 | 5. 종료
+		
+		Scanner scan = new Scanner(System.in);
+		SaleController sc = new SaleController();
+		
+		while (true) {
+			sc.printMenu();
+			
+			String inputStr = scan.nextLine();
+			
+			switch (inputStr) {
+			case "1": sc.addSale(); break;
+			case "2": sc.printSale(); break;
+			case "3": sc.orderSale(); break;
+			case "4": sc.printOrder(); break;
+			case "5": System.out.println("종료"); break;
+			default:
+			}
+			
+			
+		}
+
+	}
+
+}

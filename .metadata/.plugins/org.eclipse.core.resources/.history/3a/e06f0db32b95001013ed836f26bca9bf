@@ -1,0 +1,60 @@
+package day18;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class BankMain {
+
+	public static void main(String[] args) throws IOException {
+		
+		HashMap<String, Bank> bankMap = new HashMap<>();
+		
+		Scanner scan = new Scanner(System.in);
+		
+		Bank bankIBK = new Bank("IBK");
+		bankMap.put("IBK", bankIBK);
+		Bank bankKB = new Bank("KB");
+		bankMap.put("KB", bankKB);
+		
+		while (true) {
+			System.out.println("=====은행 선택=====");
+			for (String s : bankMap.keySet()) {
+				System.out.println(s);
+			}
+			System.out.print("은행을 선택해주세요 => ");
+			String bankName = scan.nextLine();
+			
+			if (!bankMap.keySet().contains(bankName)) {
+				System.out.println("은행을 잘못 선택했습니다.");
+				continue;
+			}
+			
+			Bank bank = bankMap.get(bankName);
+			
+			System.out.println("1. 가입");
+			System.out.println("2. 계좌 생성");
+			System.out.println("3. 입금");
+			System.out.println("4. 출금");
+			System.out.println("5. 송금");
+			System.out.println("6. 종료");
+			System.out.print("메뉴 선택 => ");
+			String choice = scan.nextLine();
+			
+			switch (choice) {
+			case "1": bank.addCustomer(scan); break;
+			case "2": bank.createAccount(scan); break;
+			case "3": bank.plusMoney(scan); break;
+			case "4": bank.minusMoney(scan); break;
+			case "5": bank.sendMoney(scan, bankMap); break;
+			case "6": System.out.println("종료"); return;
+			default:
+				System.out.println("메뉴를 잘못 선택했습니다.");
+			}
+			
+		}
+		
+		
+	}
+
+}

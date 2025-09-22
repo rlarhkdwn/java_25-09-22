@@ -1,0 +1,58 @@
+package day03;
+
+import java.util.Scanner;
+
+public class For05 {
+
+	public static void main(String[] args) {
+		// 공약수 : 두 정수의 약수 중 공통된 약수
+		// 6의 약수 : 1, 2, 3, 6
+		// 12의 약수 : 1, 2, 3, 4, 6, 12
+		// 두 수의 궁약수 : 1, 2, 3, 6
+		// 최대 공약수 : 6
+		
+		Scanner scan = new Scanner(System.in);
+		
+		System.out.print("첫번째 정수를 입력하세요 => ");
+		int num1 = scan.nextInt();
+		scan.nextLine();
+		
+		System.out.print("첫번째 정수를 입력하세요 => ");
+		int num2 = scan.nextInt();
+		scan.nextLine();
+		
+//		int gcd = 0;
+//		System.out.printf("%d, %d의 공약수 => ", num1, num2);
+//		for (int i = 1; i <= Math.min(num1, num2); i++) {
+//			if (num1 % i == 0 && num2 % i == 0) {
+//				System.out.print(i + " ");
+//				gcd = i;
+//			}
+//		}
+//		System.out.println();
+//		System.out.printf("%d, %d의 최대 공약수 => %d", num1, num2, gcd);
+		
+		for (int i = Math.min(num1, num2); i >= 1; i--) {
+			if (num1 % i == 0 && num2 % i == 0) {
+				System.out.printf("%d, %d의 최대 공약수 => %d", num1, num2, i);
+				break;
+			}
+		}
+		
+		System.out.println("========================");
+		
+		// while로 변경
+		int i = Math.min(num1, num2);
+		while (true) {
+			if (num1 % i == 0 && num2 % i == 0) {
+				System.out.printf("%d, %d의 최대 공약수 => %d", num1, num2, i);
+				break;
+			}
+			i--;
+		}
+		
+		
+		
+	}
+
+}

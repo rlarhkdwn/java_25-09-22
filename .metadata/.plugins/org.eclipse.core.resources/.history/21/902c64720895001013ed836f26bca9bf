@@ -1,0 +1,10 @@
+package day18;
+
+import java.util.List;
+
+import day12.Customer;
+
+public class Bank {
+	private BankNames bankName;
+	private List<Customer> customers;
+}

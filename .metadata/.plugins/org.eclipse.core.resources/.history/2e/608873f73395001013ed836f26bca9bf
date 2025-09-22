@@ -1,0 +1,222 @@
+package day18;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Bank {
+	private String bankName;
+	private Map<String, Customer> customers = new HashMap<>();
+	private List<Account> accounts = new ArrayList<>();
+	
+	public Bank(String bankName) {
+		this.bankName = bankName;
+		File folder = new File("D:\\web_0826_kkj\\memo\\" + bankName);
+		if (!folder.exists()) {
+            folder.mkdir();
+        }
+	}
+	
+	public void load(String bankName) throws IOException {
+        File dir = new File("D:\\web_0826_kkj\\memo\\" + bankName);
+        if (dir.isDirectory()) {
+            for (String owner : dir.list()) {
+                Customer customer = new Customer(owner, bankName);
+                customer.load(owner, bankName);
+            }
+        }
+	}
+	
+	public void addCustomer(Scanner scan) {
+		System.out.print("이름 => ");
+		String name = scan.nextLine();
+		
+		customers.put(name, new Customer(name, bankName));
+	}
+	
+	public void createAccount(Scanner scan, Map<String, Bank> bankMap) throws IOException {
+		String name = scanName(scan, bankMap.get(bankName));
+		if (name == null) {
+			return;
+		}
+		
+		System.out.print("사용하실 계좌번호를 입력하세요 => ");
+		String accountNum = scan.nextLine();
+		
+		if (accounts.contains(new Account(accountNum, bankName, name))) {
+			System.out.println("이미 사용중인 계좌번호입니다.");
+			return;
+		}
+		
+		customers.get(name).addAccount(new Account(accountNum, bankName, name));	
+		accounts.add(new Account(accountNum, bankName, name));
+	}
+	
+	public void plusMoney(Scanner scan, Map<String, Bank> bankMap) throws IOException {
+		String name = scanName(scan, bankMap.get(bankName));
+		if (name == null) {
+			return;
+		}
+
+		String accountNum = choiceAccount(scan, customers.get(name));
+		if (accountNum == null) {
+			return;
+		}
+				
+		System.out.print("입금하실 금액을 입력하세요. => ");
+		int money = scan.nextInt();
+		scan.nextLine();
+		
+		customers.get(name).plusMoney(accountNum, bankName, money);
+	}
+	
+	public void minusMoney(Scanner scan, Map<String, Bank> bankMap) throws IOException {
+		String name = scanName(scan, bankMap.get(bankName));
+		if (name == null) {
+			return;
+		}
+
+		String accountNum = choiceAccount(scan, customers.get(name));
+		if (accountNum == null) {
+			return;
+		}
+				
+		System.out.print("출금하실 금액을 입력하세요. => ");
+		int money = scan.nextInt();
+		scan.nextLine();
+		
+		int accountIdx = customers.get(name).getAccounts().indexOf(new Account(accountNum, bankName, name));
+		
+		if (customers.get(name).getAccounts().get(accountIdx).getMoney() < money) {
+			System.out.println("잔액이 부족합니다.");
+			return;
+		}
+		
+		customers.get(name).minusMoney(accountNum, bankName, money);
+	}
+	
+	public void sendMoney(Scanner scan, HashMap<String, Bank> bankMap) throws IOException {
+		// 송금자 선택
+		String src = scanName(scan, bankMap.get(bankName));
+		if (src == null) {
+			return;
+		}
+		
+		// 송금 계좌 선택
+		String accountNum = choiceAccount(scan, customers.get(src));
+		if (accountNum == null) {
+			return;
+		}
+		
+		// 은행 리스트 출력
+		System.out.println("=====은행 리스트=====");
+		for (String bn : bankMap.keySet()) {
+			System.out.println(bn);
+		}
+		
+		// 은행 선택
+		System.out.print("송금할 은행을 선택해주세요 => ");
+		String bankname= scan.nextLine();
+		
+		if (!bankMap.keySet().contains(bankName)) {
+			System.out.println("은행을 잘못 선택했습니다.");
+			return;
+		}
+		Bank dstBank = bankMap.get(bankname);
+				
+		// 송금할 이름 선택
+		String dst = scanName(scan, dstBank);
+		if (dst == null) {
+			return;
+		}
+		
+		// 송금 금액 입력		
+		System.out.print("송금하실 금액을 입력하세요. => ");
+		int money = scan.nextInt();
+		scan.nextLine();
+		
+		// 잔액 확인
+		int accountIdx = customers.get(src).getAccounts().indexOf(new Account(accountNum, bankName, src));
+		if (customers.get(src).getAccounts().get(accountIdx).getMoney() < money) {
+			System.out.println("잔액이 부족합니다.");
+			return;
+		}
+		
+		// 송금
+		customers.get(src).sendMoney(accountNum, bankName, src, dst, money);
+		dstBank.customers.get(dst).receiveMoney(accountNum, bankname, src, dst, money);
+	}	
+	
+	public void printTransactions(Scanner scan, Map<String, Bank> bankMap) throws IOException {
+		String name = scanName(scan, bankMap.get(bankName));
+		if (name == null) {
+			return;
+		}
+		
+		String accountNum = choiceAccount(scan, customers.get(name));
+		if (accountNum == null) {
+			return;
+		}
+		
+		customers.get(name).printTransactions(accountNum, bankName);
+	}
+
+		
+	public String scanName(Scanner scan, Bank bank) {
+		System.out.print("이름 => ");
+		String name = scan.nextLine();
+		
+		if (!bank.customers.containsKey(name)) {
+			System.out.println("해당 고객이 없습니다.");
+			return null;
+		}
+		return name;
+	}
+	
+	public String choiceAccount(Scanner scan, Customer customer) throws IOException {
+		int i = 1;
+		System.out.println("=====계좌 목록=====");
+		for (Account account : customer.getAccounts()) {
+			account.print();
+		}
+		System.out.println();
+		
+		System.out.print("계좌번호를 입력해주세요. => ");
+		String accountNum = scan.nextLine();
+		
+		if (!customer.getAccounts().contains(new Account(accountNum, bankName, customer.getName()))) {
+			System.out.println("계좌를 잘못 선택했습니다.");
+			return null;
+		}
+		return accountNum;
+	}
+
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	public Map<String, Customer> getCustomers() {
+		return customers;
+	}
+
+	public void setCustomers(Map<String, Customer> customers) {
+		this.customers = customers;
+	}
+
+	public List<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
+	}
+	
+}

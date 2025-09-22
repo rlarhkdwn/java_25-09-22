@@ -1,0 +1,50 @@
+package day18;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Bank {
+	private BankNames bankName;
+	private Map<String, Customer> customers = new HashMap<>();
+	private List<Account> accounts = new ArrayList<>();
+	
+	public Bank(BankNames bankName) {
+		this.bankName = bankName;
+	}
+	
+	public void addCustomer(Scanner scan) {
+		System.out.print("이름: ");
+		String name = scan.nextLine();
+		
+		customers.put(name, new Customer(name));
+	}
+	
+	public void createAccount(Scanner scan) {
+		System.out.print("이름: ");
+		String name = scan.nextLine();
+		
+		if (!customers.containsKey(name)) {
+			System.out.println("해당 고객이 없습니다.");
+			return;
+		}
+		
+		System.out.print("사용하실 계좌번호를 입력하세요 => ");
+		String accountNum = scan.nextLine();
+		
+		if (accounts.contains(new Account(accountNum))) {
+			System.out.println("이미 사용중인 계좌번호입니다.");
+			return;
+		}
+		
+		customers.get(name).addAccount(new Account(accountNum));	
+		accounts.add(new Account(accountNum));
+	}
+	
+	
+	
+	
+	
+}

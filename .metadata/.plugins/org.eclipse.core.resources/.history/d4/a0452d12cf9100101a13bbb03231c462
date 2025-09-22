@@ -1,0 +1,153 @@
+package examStudent;
+
+import java.util.Scanner;
+
+public class StudentController implements studentProgram {
+	
+	private Student[] studentList;
+	private int studentCount;
+	
+
+	public StudentController() {
+		studentList = new Student[5];
+		studentCount = 0;
+	}
+
+	public String menuPrint(Scanner scan, StudentMain sm) {
+		while (true) {
+			System.out.println("=====menu=====");
+			System.out.println("1. 학생 등록");
+			System.out.println("2. 학생 리스트");
+			System.out.println("3. 학생 검색");
+			System.out.println("4. 수강 신청");
+			System.out.println("5. 수강 철회");
+			System.out.println("6. 종료");
+			String input = scan.nextLine();
+			if (sm.allDisit(input)) {
+				return input;
+			}
+			System.out.println("잘못된 메뉴입니다.");
+		}
+	}
+	
+	@Override
+	public void insertStudent(Scanner scan) {
+		System.out.print("이름: ");
+		String name = scan.nextLine();
+		System.out.print("나이: ");
+		String age = scan.nextLine();
+		System.out.print("전화번호: ");
+		String phone = scan.nextLine();
+		System.out.print("주소: ");
+		String address = scan.nextLine();
+		Student s = new Student(name, age, phone, address);
+		
+		if (studentCount >= studentList.length) {
+			studentList = extendArray(studentList);
+		}
+		studentList[studentCount] = s;
+		studentCount++;
+		System.out.println("학생 등록 완료!");
+	}
+
+	@Override
+	public void printStudent() {
+		if (studentCount > 0) {
+			for (int i = 0; i < studentCount; i++) {
+				System.out.print(i + 1 + ". ");
+				studentList[i].printStudent();
+				studentList[i].printSubjectList();
+				System.out.println();
+			}
+		}
+		else {
+			System.out.println("등록된 학생이 없습니다.");
+		}
+	}
+
+	@Override
+	public Student searchStudent(Scanner scan, StudentMain sm) {
+		String strNum;
+		while (true) {
+			System.out.print("학번: ");
+			strNum = scan.nextLine();
+			if (sm.allDisit(strNum)) {
+				break;
+			}
+			System.out.println("숫자를 입력해주세요");
+		}
+		int intNum = Integer.parseInt(strNum);
+		for (int i = 0; i < studentCount; i++) {
+			if (studentList[i].getStudentCode() == intNum) {
+				studentList[i].printStudent();
+				studentList[i].printSubjectList();
+				return studentList[i];
+			}
+		}
+		System.out.println("해당 학생이 없습니다.");
+		return null; // 해당 학생이 없는 경우
+	}
+
+	@Override
+	public void insertSubject(Scanner scan, StudentMain sm) {
+		Student std = searchStudent(scan, sm);
+		if (std == null) {
+			return;
+		}
+		
+		System.out.println("=====강의 리스트=====");
+		for (int i = 0; i < sm.subjectList.length; i++) {
+			System.out.print(i + 1 + ". ");
+			sm.subjectList[i].print();
+		}
+		
+		String strNum;
+		while (true) {
+			System.out.print("학과 코드: ");
+			strNum = scan.nextLine();
+			if (sm.allDisit(strNum)) {
+				break;
+			}
+			System.out.println("숫자를 입력해주세요");
+		}
+		
+		int intNum = Integer.parseInt(strNum);
+		for (Subject sub : sm.subjectList) {
+			if (sub.getSubjectCode() == intNum) {
+				std.insertSubject(sub);
+				return;
+			}
+		}
+		System.out.println("해당 과목이 없습니다.");
+	}
+
+	@Override
+	public void deleteSubject(Scanner scan, StudentMain sm) {
+		Student std = searchStudent(scan, sm);
+		if (std == null) {
+			return;
+		}
+		
+		if (std.getSubjectCount() <= 0) {
+			return;
+		}
+		
+		String strNum;
+		while (true) {
+			System.out.print("학과 코드: ");
+			strNum = scan.nextLine();
+			if (sm.allDisit(strNum)) {
+				break;
+			}
+			System.out.println("숫자를 입력해주세요");
+		}
+		
+		std.deleteSubject(Integer.parseInt(strNum));
+	}
+	
+	private Student[] extendArray(Student[] arr) {
+		Student[] newArr = new Student[arr.length + 5];
+		System.arraycopy(arr, 0, newArr, 0, arr.length);
+		return newArr;
+	}
+}

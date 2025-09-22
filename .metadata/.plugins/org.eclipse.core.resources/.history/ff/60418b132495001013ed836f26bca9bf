@@ -1,0 +1,22 @@
+package day18;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+public class BankMain {
+
+	public static void main(String[] args) {
+		
+		Map<String, Bank> bankMap = new HashMap<>();
+		List<String> BankList = new ArrayList<>();
+		
+		Scanner scan = new Scanner(System.in);
+		Bank bankIBK = new Bank("IBK");
+		
+
+	}
+
+}

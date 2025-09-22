@@ -1,0 +1,27 @@
+package day18;
+
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class BankMain {
+
+	public static void main(String[] args) {
+		
+		HashMap<String, Bank> bankMap = new HashMap<>();
+		
+		Scanner scan = new Scanner(System.in);
+		Bank bankIBK = new Bank("IBK");
+		Bank bankKB = new Bank("KB");
+		bankIBK.addCustomer(scan);
+		bankIBK.createAccount(scan);
+		bankKB.addCustomer(scan);
+		bankKB.createAccount(scan);
+		bankIBK.plusMoney(scan);
+		bankIBK.getCustomers().get("홍").getAccounts().get(0).print();
+		bankIBK.minusMoney(scan);
+		bankIBK.getCustomers().get("홍").getAccounts().get(0).print();
+		bankIBK.sendMoney(scan, bankMap);
+		bankIBK.getCustomers().get("홍").getAccounts().get(0).print();
+	}
+
+}

@@ -1,0 +1,61 @@
+package day18;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Customer {
+	private String name;
+	private List<Account> accounts = new ArrayList<>();
+	
+	public Customer(String name) {
+		this.name = name;
+		try (FileWriter fw = new FileWriter("D:\\web_0826_kkj\\memo\\" + name, true)) { 
+            fw.write("");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	
+	
+	public void addAccount(Account account) {
+		accounts.add(account);
+	}
+
+	public void plusMoney(String accountNum, int money) {
+		accounts.get(accounts.indexOf(new Account(accountNum, name))).plusMoney(money);
+	}
+	
+	public void minusMoney(String accountNum, int money) {
+		accounts.get(accounts.indexOf(new Account(accountNum, name))).minusMoney(money);
+	}
+	
+	public void sendMoney(String accountNum, String src, String dst, int money) {
+		accounts.get(accounts.indexOf(new Account(accountNum, name))).sendMoney(src, dst, money);
+	}
+	
+	public void receiveMoney(String accountNum, String src, String dst, int money) {
+		accounts.get(accounts.indexOf(new Account(accountNum, name))).receiveMoney(src, dst, money);
+	}
+	
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
+	}
+	
+	
+}

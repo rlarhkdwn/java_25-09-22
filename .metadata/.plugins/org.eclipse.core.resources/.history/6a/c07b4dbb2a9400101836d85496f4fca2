@@ -1,0 +1,54 @@
+package day17;
+
+enum Category {
+	// 상품 카테고리
+	FOOD(0.1), // 식품 : 10%
+	CLOTHING(0.08), // 의류 : 8%
+	ELECTRONICS(0.15), // 전자제품 : 15%
+	OTHERS(0.05);
+	
+	private final double vatRate;
+	
+	Category(double vatRate) {
+		this.vatRate = vatRate;
+	}
+	
+	public double getVatRate() {
+		return vatRate;
+	}
+}
+
+public class EnumEx01 {
+
+	public static void main(String[] args) {
+		// 
+
+	}
+
+}
+
+
+// 상품 클래스 : name, category, price(원가)
+class Product {
+	private String name;
+	private Category category;
+	private int price;
+	
+	public Product() {}
+	public Product(String name, Category category, int price) {
+		this.name = name;
+		this.price = price;
+		for (Category c : Category.values()) {
+			if (c.equals(category)) {
+				this.category = category;
+				return;
+			}
+		}
+		this.category = Category.OTHERS;
+	}
+	
+	// 부가세 포함 가격 계산
+	public double getTotalPrice() {
+		return price * category.getVatRate();
+	}
+}

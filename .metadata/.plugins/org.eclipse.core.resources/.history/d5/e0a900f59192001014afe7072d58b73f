@@ -1,0 +1,44 @@
+package day15;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Order {
+	
+	private Map<Sale<String, Integer>, Integer> order = new HashMap<>();
+	private int total;
+
+	public Order() {}
+	
+	public void addSale(Sale<String, Integer> s, int cnt) {
+		if (cnt <= 0) {
+			return;
+		}
+		
+		order.put(s, cnt);
+		total += s.getPrice() * cnt;
+	}
+	
+	public void removeSale(Sale<String, Integer> s, int cnt) {
+		if (order.containsKey(s)) {
+			if(order.get(s) + cnt <= 0) {
+				total -= s.getPrice() * order.get(s);
+				order.remove(s);
+			}
+			else {
+				int num = order.get(s) + cnt;
+				order.put(s, num);
+				total += s.getPrice() * cnt;	
+			}
+		}
+	}
+	
+	public Map<Sale<String, Integer>, Integer> getOrder() {
+		return order;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+	
+}
